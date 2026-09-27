@@ -1,0 +1,18 @@
+# Utilities
+numpy # faster and more oprn
+pandas # tabular operations
+
+# face recognition
+scikit-learn #svm(classification and regression)
+dlib-bin #img identification
+
+git+https://github.com/ageitgey/face_recognition_models
+setuptools<70.0.0
+
+supabase
+bcrypt #hashing methods
+
+segno #qr
+pillow # img preprocessing
+
+streamlit #frontend library
