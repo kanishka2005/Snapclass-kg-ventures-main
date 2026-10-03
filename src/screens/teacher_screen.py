@@ -189,18 +189,18 @@ def teacher_tab_manage_subjects():
                 ("🫂", "Students", sub['total_students']),
                 ("🕰️", "Classes", sub['total_classes']),
             ]
-        def share_btn():
-            if st.button(f"Share Code: {sub['name']}", key=f"share_{sub['subject_code']}", icon=":material/share:"):
-                share_subject_dialog(sub['name'], sub['subject_code'])
-            st.space()
+            def share_btn(subject=sub):
+                if st.button(f"Share Code: {subject['name']}", key=f"share_{subject['subject_code']}", icon=":material/share:"):
+                    share_subject_dialog(subject['name'], subject['subject_code'])
+                st.space()
 
-        subject_card(
-            name = sub['name'],
-            code = sub['subject_code'],
-            section = sub['section'],
-            stats=stats,
-            footer_callback=share_btn
-        )
+            subject_card(
+                name=sub['name'],
+                code=sub['subject_code'],
+                section=sub['section'],
+                stats=stats,
+                footer_callback=share_btn
+            )
     else:
         st.info("NO SUBJECTS FOUND. CREATE ONE ABOVE")
 
@@ -292,6 +292,7 @@ def teacher_screen_login():
     with btnc2:
         if st.button('Register Instead', type="primary", icon=':material/passkey:', width='stretch'):
             st.session_state.teacher_login_type = 'register'
+            st.rerun()
 
     footer_dashboard()
 
@@ -303,11 +304,8 @@ def register_teacher(teacher_username, teacher_name, teacher_pass, teacher_pass_
     if teacher_pass != teacher_pass_confirm:
         return False, "Password doesn't match"
     
-    try:
-        create_teacher(teacher_username, teacher_pass, teacher_name)
-        return True, "Successfully Created! Login Now"
-    except Exception as e:
-        return False, "Unexpected Error!"
+    create_teacher(teacher_username, teacher_pass, teacher_name)
+    return True, "Successfully Created! Login Now"
 
 def teacher_screen_register():
     c1, c2 = st.columns(2, vertical_alignment='center', gap='xxlarge')
@@ -344,5 +342,6 @@ def teacher_screen_register():
     with btnc2:
         if st.button('Login Instead', type="primary", icon=':material/passkey:', width='stretch'):
             st.session_state.teacher_login_type = 'login'
+            st.rerun()
 
     footer_dashboard()

@@ -7,7 +7,7 @@ from src.components.footer import footer_dashboard
 from PIL import Image
 import numpy as np
 from src.pipelines.face_pipeline import predict_attendance, get_face_embeddings, train_classifier
-from src.pipelines.voice_pipeline import get_voice_embedding
+from src.pipelines.voice_pipeline import get_voice_embedding, VoiceModelUnavailableError
 from src.database.db import get_all_students, create_student, get_student_subjects, get_student_attendance, unenroll_student_to_subject
 import time
 
@@ -138,10 +138,7 @@ def student_screen():
 
             audio_data = None
 
-            try:
-                audio_data = st.audio_input('Record a short phrase like I am present, My name is Akash.')
-            except Exception:
-                st.error('Audio Data failed!')
+            audio_data = st.audio_input('Record a short phrase like I am present, My name is Akash.')
 
             if st.button('Create Account', type='primary'):
                 if new_name:
@@ -153,7 +150,11 @@ def student_screen():
 
                             voice_emb = None
                             if audio_data:
-                                voice_emb = get_voice_embedding(audio_data.read())
+                                try:
+                                    voice_emb = get_voice_embedding(audio_data.read())
+                                except VoiceModelUnavailableError as exc:
+                                    st.error(str(exc))
+                                    return
 
                             response_data = create_student(new_name, face_embedding=face_emb, voice_embedding=voice_emb)
 

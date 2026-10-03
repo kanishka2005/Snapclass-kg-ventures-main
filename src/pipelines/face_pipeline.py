@@ -54,15 +54,13 @@ def get_trained_model():
             X.append(np.array(embedding))
             y.append(student.get('student_id'))
 
-    if len(X) ==0:
-        return 0
-    
-    clf = SVC(kernel='linear', probability=True, class_weight='balanced')
+    if not X:
+        return None
 
-    try:
+    clf = None
+    if len(set(y)) > 1:
+        clf = SVC(kernel='linear', probability=True, class_weight='balanced')
         clf.fit(X, y)
-    except ValueError:
-        pass
 
     return {'clf': clf, 'X':X, "y":y}
 

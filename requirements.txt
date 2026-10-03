@@ -7,7 +7,7 @@ pandas # tabular operations
 scikit-learn #svm(classification and regression)
 dlib-bin #img identification
 git+https://github.com/ageitgey/face_recognition_models
-setuptools<70.0.0
+setuptools>=77,<81
 
 
 supabase
