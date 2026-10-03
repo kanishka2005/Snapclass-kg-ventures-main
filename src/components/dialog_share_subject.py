@@ -7,7 +7,7 @@ from urllib.parse import quote
 
 @st.dialog("Share Class Link")
 def share_subject_dialog(subject_name, subject_code):
-    app_domain = "snapclass-main.streamlit.app"
+    app_domain = "snapclass-kg-ventures-main.streamlit.app"
     join_url = f"https://{app_domain}/?join-code={quote(subject_code, safe='')}"
 
     st.header("Scan to Join")
